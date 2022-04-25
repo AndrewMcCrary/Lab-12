@@ -1,4 +1,4 @@
-#include "sorting.h"
+﻿#include "sorting.h"
 
 using namespace std;
 
@@ -28,19 +28,63 @@ void sorting::insertion(int* start, int length) {
     }
 }
 
-void sorting::mergeSort(int* start, int begin, int end) {
+void sorting::mergeSort(int* start, int const begin, int const end) {
+    if (begin < end) {
+        int middle = begin + ((end - begin) / 2);
 
-    int middle = (end + begin) / 2;
+        mergeSort(start, 0, middle);
+        mergeSort(start, middle + 1, end);
 
-    if (end - begin <= 1)
-        return;
+        merge(start, begin, middle, end);
+    }
+}
 
-    // Left
-    mergeSort(start, 0, middle);
-    // Right
-    mergeSort(start, middle + 1, end);
+void sorting::merge(int* arr, int left, int middle, int right) { // left is first index, middle is last index of left, middle + 1 is first index of right, right is last index
+// Create L ← A[left..middle] and M ← A[middle+1..r]
+    int n1 = middle - left + 1;
+    int n2 = right - middle;
 
-    merge(start, begin, middle, end);
+    int* L = new int[n1];
+    int* M = new int[n2];
+
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++)
+        M[j] = arr[middle + 1 + j];
+
+    // Maintain current index of sub-arrays and main array
+    int i, j, k;
+    i = 0;
+    j = 0;
+    k = left;
+
+    // Until we reach either end of either L or M, leftick larger among
+    // elements L and M and leftlace them in the correct leftosition at A[left..r]
+    while (i < n1 && j < n2) {
+        if (L[i] <= M[j]) {
+            arr[k] = L[i];
+            i++;
+        }
+        else {
+            arr[k] = M[j];
+            j++;
+        }
+        k++;
+    }
+
+    // When we run out of elements in either L or M,
+    // leftick uleft the remaining elements and leftut in A[left..r]
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = M[j];
+        j++;
+        k++;
+    }
 }
 
 void sorting::quick(int* start, int low, int high) {
@@ -66,77 +110,59 @@ void sorting::quick(int* start, int low, int high) {
         quick(start, pivot + 1, high);
     }
 }
-/*
+
 void sorting::counting(int* start, int length) {
     int max = start[0];
-    for (int x = 1; x < length; x++) {
-        if (start[x] > max) max = start[x];
-    }
-    int occs[max+1];
-    for (int x = 0; x <= max; x++) {
-        occs[x] = 0;
-    }
-    for (int x = 0; x < length; x++) {
-        occs[start[x]]++;
-    }
-    for (int x = 1; x <= max; x++) {
-        occs[x] += occs[x - 1];
-    }
-    int output[length];
-    for (int x = length - 1; x >= 0; x--) {
-        output[occs[start[x]] - 1] = start[x];
-        occs[start[x]]--;
-    }
-    for (int x = 0; x < length; x++) {
-        start[x] = output[x];
-    }
-}*/
+    for (int i = 1; i < length; i++)
+        if (start[i] > max)
+            max = start[i];
 
-void sorting::radix(int* start, int length) {
-    queue<int> ones = queue<int>();
-    queue<int> zeros = queue<int>();
+    int* arr = new int[max + 1] {0};
 
-    for (int i = 0, bit = 1; i < sizeof(int) * 8; ++i, bit <<= 1) {
-        for (int j = 0; j < length; j++) {
-            if ((bit & start[j]) == bit)
-                ones.push(start[j]);
-            else
-                zeros.push(start[j]);
+    for (int i = 0; i < length; i++)
+        arr[start[i]]++;
+
+    int index = 0;
+    for (int i = 0; i < max + 1; i++)
+        while (arr[i] > 0) {
+            start[index] = i;
+            arr[i]--;
+            index++;
         }
 
-        int index = 0;
-        while (!zeros.empty()) {
-            start[index++] = zeros.front();
-            zeros.pop();
-        }
-
-        while (!ones.empty()) {
-            start[index++] = ones.front();
-            ones.pop();
-        }
-    }
-    
 }
 
-int* sorting::merge(int* start, int left, int mid, int right) { // [left, right)
-    // assumes that both individual arrays are already sorted
-    int ls = left;
-    int rs = mid + 1;
-    int* sorted = new int[right - left];
-
-    for (int i = 0; i < right - left; i++) {
-        if (ls < mid + 1 && rs < right) {
-            if (start[ls] > start[rs])
-                sorted[i] = start[rs++];
-            else
-                sorted[i] = start[ls++];
-        }
-        else if (ls < mid + 1)
-            sorted[i] = start[ls++];
-        else
-            sorted[i] = start[rs++];
+void sorting::radix(int* start, int length) {
+    for (int i = 0, bit = 1; i < (sizeof(int) * 8) - 1; ++i, bit <<= 1) {
+        binaryCounting(start, length, bit);
     }
-    copy(sorted, sorted + right - left, &(start[left]));
-    delete sorted;
-    return start;
+}
+
+void sorting::binaryCounting(int* start, int length, int bit) {
+    // counts[0] stores the number of items with a 0 in this bit
+    // counts[1] stores the number of items with a 1 in this bit
+    int* counts = new int[] {0, 0};
+
+    for (int i = 0; i < length; i++) {
+        counts[(start[i] & bit) == bit]++;
+    }
+
+
+    int* zeros = new int[counts[0]];
+    int* ones = new int[counts[1]];;
+
+    int zi = 0;
+    int oi = 0;
+
+    for (int i = 0; i < length; i++) {
+        bool bitval = (start[i] & bit) == bit;
+        if (bitval)
+            ones[oi++] = start[i];
+        else
+            zeros[zi++] = start[i];
+    }
+
+    copy(zeros, zeros + counts[0], start);
+    copy(ones, ones + counts[1], start + counts[0]);
+    delete[] zeros, ones, counts;
 }

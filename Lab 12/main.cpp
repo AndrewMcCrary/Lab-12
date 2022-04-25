@@ -3,6 +3,7 @@
 #include <ctime>
 #include <random>
 #include <list>
+#include <chrono>
 #include "sorting.h"
 
 using namespace std;
@@ -21,21 +22,12 @@ public:
 
 int main() {
 
-    //std::clock_t start;
-    //double duration;
-    //start = std::clock();
-
-    ///* Your algorithm here */
-
-    //duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
-    //std::cout << "printf: " << duration << '\n';
-
-    int test10[10];
-    int test100[100];
-    int test500[500];
-    int test5000[5000];
-    int test25000[25000];
-    int test100000[100000];
+    int* test10 = new int[10];
+    int* test100 = new int[100];
+    int* test500 = new int[500];
+    int* test5000 = new int[5000];
+    int* test25000 = new int[25000];
+    int* test100000 = new int[100000];
 
     srand(time(NULL));
 
@@ -101,23 +93,20 @@ int main() {
     Student.emplace_back(studentData("Osama", "Laden", 00150001)); //50th
 #pragma endregion
 
-    for (int i : test25000)
-        cout << i << " " ;
+    double duration;
+    auto start = chrono::steady_clock::now();
+
+    sorting::mergeSort(test100, 0, 30);
+
+    auto end = chrono::steady_clock::now();
+
+    for (int i = 0; i < 100; i++) {
+        cout << test100[i] << " ";
+    }
     cout << endl;
 
-    std::clock_t start;
-    double duration;
-    start = std::clock();
-
-    sorting::radix(test25000, 25000);
-
-    duration = (std::clock() - start) / (double)CLOCKS_PER_SEC;
+    cout << chrono::duration_cast<chrono::microseconds>(end - start).count() << " microseconds" << endl;
 
 
-    std::cout << "printf: " << duration << '\n';
-
-    //for (int i : test25000)
-     //   cout << i << " ";
-    system("pause");
     return 0;
 }
