@@ -96,16 +96,52 @@ int main() {
     double duration;
     auto start = chrono::steady_clock::now();
 
-    sorting::mergeSort(test100, 0, 30);
+    sorting::mergeSort(test10, 0, 9);
 
     auto end = chrono::steady_clock::now();
 
-    for (int i = 0; i < 100; i++) {
-        cout << test100[i] << " ";
-    }
-    cout << endl;
+    cout << chrono::duration_cast<chrono::nanoseconds>(end - start).count() << " nanoseconds for 10" << endl;
 
-    cout << chrono::duration_cast<chrono::microseconds>(end - start).count() << " microseconds" << endl;
+    start = chrono::steady_clock::now();
+
+    sorting::mergeSort(test100, 0, 99);
+
+    end = chrono::steady_clock::now();
+
+    cout << chrono::duration_cast<chrono::nanoseconds>(end - start).count() << " nanoseconds for 100" << endl;
+
+    start = chrono::steady_clock::now();
+
+    sorting::mergeSort(test500, 0, 499);
+
+    end = chrono::steady_clock::now();
+
+    cout << chrono::duration_cast<chrono::nanoseconds>(end - start).count() << " nanoseconds for 500" << endl;
+
+    start = chrono::steady_clock::now();
+
+    sorting::mergeSort(test5000, 0, 4999);
+
+    end = chrono::steady_clock::now();
+
+    cout << chrono::duration_cast<chrono::nanoseconds>(end - start).count() << " nanoseconds for 5000" << endl;
+
+    start = chrono::steady_clock::now();
+
+    sorting::mergeSort(test25000, 0, 24999);
+
+    end = chrono::steady_clock::now();
+
+    cout << chrono::duration_cast<chrono::nanoseconds>(end - start).count() << " nanoseconds for 25000" << endl;
+
+    start = chrono::steady_clock::now();
+
+    sorting::mergeSort(test100000, 0, 99999);
+
+    end = chrono::steady_clock::now();
+
+    cout << chrono::duration_cast<chrono::nanoseconds>(end - start).count() << " nanoseconds for 100000" << endl;
+
 
 
     return 0;
