@@ -5,6 +5,7 @@
 #include <list>
 #include <chrono>
 #include "sorting.h"
+#include "student.h"
 
 using namespace std;
 
