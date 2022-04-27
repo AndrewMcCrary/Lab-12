@@ -1,8 +1,10 @@
 #pragma once
 #include <algorithm>
-#include <list>
 #include <iostream>
 #include <queue>
+#include <string>
+#include <list>
+#include "student.h"
 
 class sorting {
 public:
@@ -12,7 +14,7 @@ public:
 	static void quick(int* start, int low, int high);
 	static void counting(int* start, int length);
 	static void radix(int* start, int length);
-
+	static std::list<studentData> studentRadix(std::list<studentData> l, bool desc);
 private:
 	static void merge(int* start, int left, int mid, int rl);
 	static void binaryCounting(int* start, int length, int bit);

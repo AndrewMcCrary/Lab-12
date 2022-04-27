@@ -79,7 +79,6 @@ void sorting::merge(int* array, int l, int m, int r) {
     delete[] larr, rarr;
 }
 
-
 void sorting::quick(int* start, int low, int high) {
     if (low < high) {
         
@@ -131,6 +130,44 @@ void sorting::radix(int* start, int length) {
     }
 }
 
+list<studentData> sorting::studentRadix(list<studentData> l, bool desc) {    
+    vector<studentData> sorted = vector<studentData>(l.size());
+    std::copy(l.begin(), l.end(), sorted.begin());
+
+    unsigned int max = 0;
+    for (int i = 0; i < l.size(); i++)
+        if (sorted[i].lname.size() > max)
+            max = sorted[i].lname.size();
+
+    for (int i = max - 1; i >= 0; i--) {
+        vector<studentData> students;
+        vector<studentData> vec[27];
+
+        for (int j = 0; j < l.size(); j++) {
+            if (sorted[j].lname.size() < i + 1) {
+                vec[0].push_back(sorted[j]);
+                continue;
+            }
+
+            vec[tolower(sorted[j].lname[i]) - 96].push_back(sorted[j]);
+        }
+
+        for (auto v : vec) {
+            for (auto s : v) {
+                students.push_back(s);
+            }
+        }
+
+        sorted.clear();
+        sorted = students;
+    }
+
+    list<studentData> out;
+    std::copy(sorted.begin(), sorted.end(), std::back_inserter(out));
+
+    return out;
+}
+
 void sorting::binaryCounting(int* start, int length, int bit) {
     // counts[0] stores the number of items with a 0 in this bit
     // counts[1] stores the number of items with a 1 in this bit
@@ -155,7 +192,7 @@ void sorting::binaryCounting(int* start, int length, int bit) {
             zeros[zi++] = start[i];
     }
 
-    copy(zeros, zeros + counts[0], start);
-    copy(ones, ones + counts[1], start + counts[0]);
+    std::copy(zeros, zeros + counts[0], start);
+    std::copy(ones, ones + counts[1], start + counts[0]);
     delete[] zeros, ones, counts;
 }
