@@ -28,64 +28,57 @@ void sorting::insertion(int* start, int length) {
     }
 }
 
-void sorting::mergeSort(int* start, int const begin, int const end) {
-    if (begin < end) {
-        int middle = begin + ((end - begin) / 2);
+void sorting::mergeSort(int* array, int l, int r) {
+    if (l < r) {
+        int m = l + (r - l) / 2;
 
-        mergeSort(start, 0, middle);
-        mergeSort(start, middle + 1, end);
+        mergeSort(array, l, m);
+        mergeSort(array, m + 1, r);
 
-        merge(start, begin, middle, end);
+        merge(array, l, m, r);
     }
 }
 
-void sorting::merge(int* arr, int left, int middle, int right) { // left is first index, middle is last index of left, middle + 1 is first index of right, right is last index
-// Create L ← A[left..middle] and M ← A[middle+1..r]
-    int n1 = middle - left + 1;
-    int n2 = right - middle;
+void sorting::merge(int* array, int l, int m, int r) {
+    int left, right, k, nl, nr;
 
-    int* L = new int[n1];
-    int* M = new int[n2];
+    nl = m - l + 1;
+    nr = r - m;
 
-    for (int i = 0; i < n1; i++)
-        L[i] = arr[left + i];
-    for (int j = 0; j < n2; j++)
-        M[j] = arr[middle + 1 + j];
+    int* larr = new int[nl];
+    for (left = 0; left < nl; left++)
+        larr[left] = array[l + left];
 
-    // Maintain current index of sub-arrays and main array
-    int i, j, k;
-    i = 0;
-    j = 0;
-    k = left;
+    int* rarr = new int[nr];
+    for (right = 0; right < nr; right++)
+        rarr[right] = array[m + 1 + right];
 
-    // Until we reach either end of either L or M, leftick larger among
-    // elements L and M and leftlace them in the correct leftosition at A[left..r]
-    while (i < n1 && j < n2) {
-        if (L[i] <= M[j]) {
-            arr[k] = L[i];
-            i++;
+    left = 0; right = 0; k = l;
+    while (left < nl && right < nr) {
+        if (larr[left] <= rarr[right]) {
+            array[k] = larr[left];
+            left++;
         }
         else {
-            arr[k] = M[j];
-            j++;
+            array[k] = rarr[right];
+            right++;
         }
         k++;
     }
 
-    // When we run out of elements in either L or M,
-    // leftick uleft the remaining elements and leftut in A[left..r]
-    while (i < n1) {
-        arr[k] = L[i];
-        i++;
-        k++;
+    while (left < nl) {
+        array[k] = larr[left];
+        left++; k++;
     }
 
-    while (j < n2) {
-        arr[k] = M[j];
-        j++;
-        k++;
+    while (right < nr) {
+        array[k] = rarr[right];
+        right++; k++;
     }
+
+    delete[] larr, rarr;
 }
+
 
 void sorting::quick(int* start, int low, int high) {
     if (low < high) {
