@@ -8,17 +8,6 @@
 
 using namespace std;
 
-struct studentData {
-public:
-    studentData(string fname, string lname, int number) {
-        this->fname = fname;
-        this->lname = lname;
-        this->number = number;
-    }
-    string fname;
-    string lname;
-    int number;
-};
 
 int main() {
 
