@@ -147,6 +147,7 @@
     <ClInclude Include="Dubley.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="sorting.h" />
+    <ClInclude Include="student.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
