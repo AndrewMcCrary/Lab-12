@@ -165,6 +165,59 @@ list<studentData> sorting::studentRadix(list<studentData> l, bool desc) {
     list<studentData> out;
     std::copy(sorted.begin(), sorted.end(), std::back_inserter(out));
 
+    if (desc)
+        out.reverse();
+
+    return out;
+}
+
+list<studentData> sorting::studentInsertion(std::list<studentData> l, bool desc) {
+    vector<studentData> sorted = vector<studentData>(l.size());
+    std::copy(l.begin(), l.end(), sorted.begin());
+
+    int i, j;
+    studentData key;
+    for (i = 1; i < sorted.size(); i++) {
+        key = sorted[i];
+        j = i - 1;
+        while (j >= 0 && sorted[j].number > key.number) {
+            sorted[j + 1] = sorted[j];
+            j = j - 1;
+        }
+        sorted[j + 1] = key;
+    }
+
+    list<studentData> out;
+    std::copy(sorted.begin(), sorted.end(), std::back_inserter(out));
+
+    if (desc)
+        out.reverse();
+
+    return out;
+}
+
+std::list<studentData> sorting::studentBubble(std::list<studentData> l, bool desc) {
+    vector<studentData> sorted = vector<studentData>(l.size());
+    std::copy(l.begin(), l.end(), sorted.begin());
+
+    studentData temp;
+
+    for (int i = 0; i < sorted.size(); i++) {
+        for (int j = 0; j < sorted.size() - i - 1; j++) {
+            if (strcmp(sorted[j].fname.c_str(), sorted[j + 1].fname.c_str()) > 0) {
+                temp = sorted[j];
+                sorted[j] = sorted[j + 1];
+                sorted[j + 1] = temp;
+            }
+        }
+    }
+
+    list<studentData> out;
+    std::copy(sorted.begin(), sorted.end(), std::back_inserter(out));
+
+    if (desc)
+        out.reverse();
+
     return out;
 }
 

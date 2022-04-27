@@ -88,7 +88,7 @@ int main() {
         cout << i.fname << "\t" << i.lname << "\t" << i.number << endl;
     cout << endl << endl;
 
-    Student = sorting::studentRadix(Student, true);
+    Student = sorting::studentBubble(Student, false);
 
 
     for (auto i : Student)
