@@ -8,6 +8,9 @@
 #include "sorting.h"
 #include "student.h"
 
+// Ricky Roberts, Andrew McCrary and Vitta Silberberg
+// All contributions equal
+
 using namespace std;
 
 
