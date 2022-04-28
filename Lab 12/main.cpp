@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cstdio>
 #include <ctime>
 #include <random>
@@ -83,16 +84,52 @@ int main() {
     Student.emplace_back(studentData("Osama", "Laden", 00150001)); //50th
 #pragma endregion
 
-
+    cout << "####### UNSORTED #######\n";
     for (auto i : Student)
-        cout << i.fname << "\t" << i.lname << "\t" << i.number << endl;
+        cout << std::setw(10) << std::left << i.fname << std::setw(15) << std::left << i.lname << std::setw(10) << std::left << i.number << endl;
     cout << endl << endl;
 
-    Student = sorting::studentBubble(Student, false);
+	bool connectionTerminated = false;
+	while (!connectionTerminated) {
+        std::cout << "\nStudent Sorting Menu\n\n [1] Buuble By First Name\n [2] Insetrion By M Number\n [3] Radix By Last Name\n";
+        int choice = 0;
+		std::cin >> choice;
+		bool correct = true;
+		int base, dest;
+		switch (choice) {
+		case 1:
+            std::cout << "\nYou selected [1] Buuble By First Name. Do you want this ascending(0) or descending(1): ";
+            cin >> correct;
 
+            Student = sorting::studentBubble(Student, correct);
+            cout << "####### SORTED #######\n";
+            for (auto i : Student)
+                cout << std::setw(10) << std::left << i.fname << std::setw(15) << std::left << i.lname << std::setw(10) << std::left << i.number << endl;
+			break;
+		case 2:
+            std::cout << "\nYou selected [2] Insetrion By M Number. Do you want this ascending(0) or descending(1): ";
+            cin >> correct;
 
-    for (auto i : Student)
-        cout << i.fname << "\t" << i.lname << "\t" << i.number << endl;
+            Student = sorting::studentInsertion(Student, correct);
+            cout << "####### SORTED #######\n";
+            for (auto i : Student)
+                cout << std::setw(10) << std::left << i.fname << std::setw(15) << std::left << i.lname << std::setw(10) << std::left << i.number << endl;
+            break;
+		case 3:
+            std::cout << "\nYou selected [2] Insetrion By M Number. Do you want this ascending(0) or descending(1): ";
+            cin >> correct;
+
+            Student = sorting::studentRadix(Student, correct);
+            cout << "####### SORTED #######\n";
+            for (auto i : Student)
+                cout << std::setw(10) << std::left << i.fname << std::setw(15) << std::left << i.lname << std::setw(10) << std::left << i.number << endl;
+            break;
+		default:
+			continue;
+		};
+		std::cout << "\nContinue? [0 = yes/1 = no]: ";
+		std::cin >> connectionTerminated;
+	}
 
 
     
