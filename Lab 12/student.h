@@ -3,6 +3,7 @@
 
 struct studentData {
 public:
+    studentData();
     studentData(std::string fname, std::string lname, int number) {
         this->fname = fname;
         this->lname = lname;
