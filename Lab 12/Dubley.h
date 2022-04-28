@@ -14,6 +14,7 @@ public:
 	bool IsEmpty();
 	int Size();
 	void printList();
+	//void bubbleWithFirstNames(bool desc);
 private:
 	Node* Current = nullptr;
 	Node* _head = nullptr;
@@ -79,3 +80,26 @@ inline void Dubley::printList()
 		}
 	}
 }
+
+//inline void Dubley::bubbleWithFirstNames(bool desc)
+//{
+//	Node* temp;
+//	Node* i = this->_head;
+//	int y = 0; 
+//	while (i != nullptr) {
+//		Node* j = this->_head;
+//		int x = 0; 
+//		while (x < this->Size() - y - 1) {
+//			if (j->getFirst().compare(j->Next->getFirst()) < 0) {
+//				temp = j;
+//				j = j->Next;
+//				j->Next = temp;
+//			}
+//			x++;
+//			j = j->Next;
+//		}
+//		y++;
+//		i = i->Next;
+//	}
+//	
+//}
